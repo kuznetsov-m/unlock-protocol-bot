@@ -1,0 +1,1 @@
+need_to_check_token = 'Verify you wallet with access token for recive invite to private channal.\n\nFor verification, you need to sign the message in a Metamask.'
