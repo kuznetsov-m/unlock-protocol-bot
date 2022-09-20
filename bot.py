@@ -4,7 +4,7 @@ import telebot
 from telebot.apihelper import ApiTelegramException
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from models import User
+from models import TelegramUser as User
 import text
 
 bot = telebot.TeleBot(os.environ.get('TELEGRAM_BOT_TOKEN'))
@@ -35,7 +35,7 @@ def subscriber(message):
     url = f'{os.environ.get("SIGN_URL")}'
     url += f'?user_id={message.chat.id}'
     url += f'&token_address={os.environ.get("TOKEN_ADDRESS")}'
-    
+
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton(text='🖋 Sing message for invite', url=url))
     send_message(message.chat.id, text.need_to_check_token, reply_markup=markup)

@@ -10,8 +10,8 @@ engine = create_engine(f'{ os.environ.get("DATABASE_URL")}'.replace('postgres://
 Base = declarative_base()
 metadata = Base.metadata
 
-class User(Base):
-    __tablename__ = 'user'
+class TelegramUser(Base):
+    __tablename__ = 'telegram_user'
 
     id = Column(Integer, primary_key=True)
     first_start_timestamp = Column(DateTime, index=True, default=datetime.utcnow)
@@ -20,4 +20,4 @@ class User(Base):
     last_name = Column(String)
 
     def __repr__(self):
-        return f'User(id={self.id}, first_name={self.first_name}, last_name={self.last_name})'
+        return f'TelegramUser(id={self.id}, first_name={self.first_name}, last_name={self.last_name})'
