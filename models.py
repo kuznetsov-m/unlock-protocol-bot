@@ -18,6 +18,12 @@ class TelegramUser(Base):
     is_stopped = Column(Integer, default=0)
     first_name = Column(String)
     last_name = Column(String)
+    account_address = Column(String)
 
     def __repr__(self):
-        return f'TelegramUser(id={self.id}, first_name={self.first_name}, last_name={self.last_name})'
+        return (
+            f'TelegramUser(id={self.id}, '
+            f'first_name={self.first_name}, '
+            f'last_name={self.last_name}, '
+            f'account_address={self.account_address})'
+        )
