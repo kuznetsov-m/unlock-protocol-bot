@@ -19,6 +19,7 @@ class TelegramUser(Base):
     first_name = Column(String)
     last_name = Column(String)
     account_address = Column(String)
+    balance = Column(Integer, default=0)
 
     def __repr__(self):
         return (
