@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # custom
+.vscode
 app.db

@@ -10,6 +10,15 @@ import text
 bot = telebot.TeleBot(os.environ.get('TELEGRAM_BOT_TOKEN'))
 engine = create_engine(f'{ os.environ.get("DATABASE_URL")}'.replace('postgres://', 'postgresql://'))
 
+allow_user_list = []
+
+def update_allow_user_list():
+    allow_user_list.append(int(os.environ.get('TELEGRAM_BOT_TOKEN').split(':')[0]))
+
+    with Session(engine) as session:
+        users = session.query(User).filter(User.balance!=0).all()
+        allow_user_list.extend([user.id for user in users])
+
 def send_message(chat_id: int, text: str, reply_markup=None):
     try:
         return bot.send_message(chat_id, text, reply_markup=reply_markup)
@@ -59,9 +68,23 @@ def start(message):
             session.commit()
     choose_role(message)
 
-@bot.message_handler(content_types="text")
-def handler_text(message):
-    send_message(message.chat.id, message.text)
+# @bot.message_handler(content_types="text")
+# def handler_text(message):
+#     send_message(message.chat.id, message.text)
+
+@bot.message_handler(content_types=['new_chat_members'])
+def new(message):
+    update_allow_user_list()
+    
+    for user in message.new_chat_members:
+        if user.id not in allow_user_list:
+            bot.kick_chat_member(message.chat.id, user.id)
+            text = f'{user.full_name} (@{user.username}) has been kiked!'
+            bot.reply_to(message, text)
+            print(text)
+            return
+
+    bot.reply_to(message, f'👋 Wellcome to private chat, {user.full_name}!')
 
 while True:
     try:
