@@ -32,7 +32,7 @@ def send_message(chat_id: int, text: str, reply_markup=None):
 
 def choose_role(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True, one_time_keyboard=False)
-    keyboard.row('⭐️ Author','📥 Subscriber')
+    keyboard.row('⭐️ Author', '📥 Subscriber')
     message = send_message(message.chat.id, 'Choose your role', reply_markup=keyboard)
     bot.register_next_step_handler(message, choose_role_handler)
 
